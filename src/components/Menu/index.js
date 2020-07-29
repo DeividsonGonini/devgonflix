@@ -7,6 +7,9 @@ import './Menu.css'
 //importando componente ButtonLink
 // import ButtonLink from '../components/ButtonLink';
 
+//importando o Link para ativação do SPA
+import { Link } from 'react-router-dom';
+
 //import componente Button
 import Button from '../Button';
 
@@ -15,13 +18,15 @@ import Button from '../Button';
 function Menu() {
     return (
         <nav className="Menu">
-            <a href="/">
+            {/* tag Link -> igual tag a, mas trabalha com rotas */}
+            <Link to="/">
                 {/* importando imagem da logo */}
                 <img className="Logo" src={Logo} alt="DevGonFlix logo" />
-            </a>
+            </Link>
             {/* criando botao  "novo vídeo" */}
             {/* as="a" => faz a tag button se comportar como uma tag a */}
-            <Button as="a" className="ButtonLink" href="/">Novo Vídeo</Button>
+            {/* as={Link} se comporta como um Link e é dinamico */}
+            <Button as={Link} className="ButtonLink" to="/cadastro/video">Novo Vídeo</Button>
         </nav>
     );
 }
