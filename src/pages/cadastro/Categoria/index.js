@@ -41,7 +41,9 @@ function CadastroCategoria() {
         // 1º
         console.log('alo alo Brasil');
         //variavel para armazenar a URL do json com o cadastro de categorias
-        const URL_TOP = 'http://localhost:8080/categorias/'
+        const URL_TOP = window.location.hostname.includes('localhost')
+            ? 'http://localhost:8000/categorias'
+            : 'https://devgonflix.herokuapp.com/categorias'
         //função do browser que busca dados
         fetch(URL_TOP)
             //then (entao) => quando bater no backend fazer alguma coisa
