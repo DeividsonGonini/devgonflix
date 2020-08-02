@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageDefault from '../../../components/PageDefault';
 import FormField from '../../../components/FormField';
@@ -30,11 +30,54 @@ function CadastroCategoria() {
     function handleChange(infosDoEvento) {
         // const { getAttribute, value } = infosDoEvento.target;
         setValue(
-
             infosDoEvento.target.getAttribute('name'),
             infosDoEvento.target.value,
         );
     }
+
+    // useEffect = chamamos quando queremos que algum "efeito colateral aconteça"
+    // é uma função que teremos 2 parametros: 1º o que queremos que aconteça / 2º quando queremos que ele aconteça
+    useEffect(() => {
+        // 1º
+        console.log('alo alo Brasil');
+        //variavel para armazenar a URL do json com o cadastro de categorias
+        const URL_TOP = 'http://localhost:8080/categorias/'
+        //função do browser que busca dados
+        fetch(URL_TOP)
+            //then (entao) => quando bater no backend fazer alguma coisa
+            //async - diz que a função pode esperar o await
+            .then(async (respostaDoServidor) => {
+                //converte a resposta de texto para JSON
+                //await para aguardar o processamento dos dados
+                const resposta = await respostaDoServidor.json();
+                setCategorias([
+                    ...resposta,
+                ]);
+            })
+
+        // setTimeout(() => {
+        //     setCategorias([
+        //         // ... serve para manter tudo o que ja tem na lista e apenas acrescentar o novo / categorias é o nome da categoria que setamos na função CadastroCategoria
+        //         ...categorias,
+        //         {
+        //             id: 1,
+        //             nome: 'Front End',
+        //             descricao: 'Desenvolvimento de Front End',
+        //             cor: '#cbd1ff',
+        //         },
+        //         {
+        //             id: 2,
+        //             nome: 'Back End',
+        //             descricao: 'Desenvolvimento de Back End',
+        //             cor: '#cbd1ff',
+        //         },
+        //     ]);
+        // }, 4 * 1000);
+    },
+        // 2º Array que fala quando quais coisas atualizem queremos que o evento aconteça
+        // nesse caso caso ficara vazio para acontecer apenas uma vez (carregar os dados iniciais)
+        // se nao tiver esse array vazio, ira ocorrer a cada atualização de qualquer coisa na pagina
+        []);
 
     return (
         <PageDefault>
@@ -75,7 +118,6 @@ function CadastroCategoria() {
                     onChange={handleChange}
                 />
 
-
                 <FormField
                     label="Cor"
                     name="cor"
@@ -85,8 +127,15 @@ function CadastroCategoria() {
                 />
                 <Button>
                     Cadastrar
-                </Button>
+        </Button>
             </form>
+            {/* Loading fara um timer para quando a pagina carregar, fazer uma ação que ocorre um pouco depois */}
+            {categorias.length === 0 && (
+                <div>
+                    {/* Cargando */}
+        Loading...
+                </div>
+            )}
 
             <ul>
                 {/* indice utilizado para poder duplicar os dados */}
